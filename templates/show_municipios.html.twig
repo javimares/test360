@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% block javascripts %}
+        <script>
+            jQuery(document).ready(function($)
+            {
+                $.ajax({
+                    method: "GET",
+                    url: "{{ url('api_municipios', {'nombreDeProvincia': provincia}) }}",
+                    dataType: 'json',
+                    success: function(data)
+                    {
+
+                            html = "";
+                            $.each( data, function( key, value ) {
+                                html += "<p>" + value.nombre + "</p>";
+                            });
+                            document.write(html)
+                    },
+                    error: function(jqXHR, exception)
+                    {
+                        if(jqXHR.status === 405)
+                        {
+                            console.error("METHOD NOT ALLOWED!");
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
